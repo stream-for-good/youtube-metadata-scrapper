@@ -1,0 +1,12 @@
+{
+    "name": "nherbaut/client-php",
+    "require": {
+        "php-amqplib/php-amqplib": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Nicolas Herbaut",
+            "email": "nicolas.herbaut@univ-paris1.fr"
+        }
+    ]
+}
