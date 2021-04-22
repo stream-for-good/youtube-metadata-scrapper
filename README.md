@@ -1,22 +1,41 @@
 # Youtube-Metadata Scrapper
 
-This microservice reads some videoId from the broker, gather info with youtube API and sends back results to the broker for persistence
+This microservice reads some videoId from the broker, gather info with youtube API and sends back results to the broker for persistence.
+It uses [Python Celery](https://docs.celeryproject.org/en/stable/index.html) to run scrapping tasks on the server and [RabbitMQ](https://www.rabbitmq.com/) as a backend for messaging.
 
 # Usage
 
 first, you must fill up the `env.tpl` file and source it.
 
-## Standalone direct python (not celery required)
+## in Python
 
-### get video metadata
+### install requirements
+
+```bash
+pip3 install -f ./requirements.txt
+```
+
+### Standalone direct python (no celery required)
+
+#### get video metadata
 ```
 python -c "import youtube; youtube.scrap_video_metadata('8ED5zODbm38')"
 ```
 
-### get comments metadata
+#### get comments metadata
 
 ```
 python -c "import youtube; youtube.scrap_comment('8ED5zODbm38')"
+```
+
+### calling celery tasks by hand
+
+```python
+import youtube
+task=youtube.scrap_comment.delay("8ED5zODbm38")
+while not task.ready():
+  sleep(1)
+result=task.get()
 ```
 
 ## Docker CLI
@@ -36,15 +55,7 @@ environment:
  - BROKER_HOST=foo4
 ```
 
-## calling celery tasks by hand
 
-```python
-import youtube
-task=youtube.scrap_comment.delay("8ED5zODbm38")
-while not task.ready():
-  sleep(1)
-result=task.get()
-```
 
 # PHP client
 
