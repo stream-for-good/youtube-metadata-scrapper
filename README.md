@@ -15,7 +15,9 @@ first, you must fill up the `env.tpl` file and source it.
 pip3 install -f ./requirements.txt
 ```
 
-### Standalone direct python (no celery required)
+### Standalone direct python
+
+In this scenario, tasks are run directly in python on your host. You don't need a connection to the broker, but require an API Key.
 
 #### get video metadata
 ```
@@ -28,7 +30,9 @@ python -c "import youtube; youtube.scrap_video_metadata('8ED5zODbm38')"
 python -c "import youtube; youtube.scrap_comment('8ED5zODbm38')"
 ```
 
-### calling celery tasks by hand
+### calling celery tasks by hand 
+
+In this scenarios, tasks are run on the server, and you don't need an API Key, but you need to send your tasks on the broker.
 
 ```python
 import youtube
