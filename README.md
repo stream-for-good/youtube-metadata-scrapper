@@ -6,7 +6,7 @@ This microservice reads some videoId from the broker, gather info with youtube A
 
 first, you must fill up the `env.tpl` file and source it.
 
-## Standalone direct python
+## Standalone direct python (not celery required)
 
 ### get video metadata
 ```
@@ -34,6 +34,16 @@ environment:
  - BROKER_PASSWORD=foo2
  - BROKER_USER=foo3 
  - BROKER_HOST=foo4
+```
+
+## calling celery tasks by hand
+
+```python
+import youtube
+task=youtube.scrap_comment.delay("8ED5zODbm38")
+while not task.ready():
+  sleep(1)
+result=task.get()
 ```
 
 # PHP client
