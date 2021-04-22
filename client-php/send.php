@@ -20,7 +20,7 @@ $response_queue="youtube-response";
 //this is the id of the video for which we want to have metadatas
 $video_id="DsSQ6NrHuRQ";
 //this is the name of the task that uses Youtube API to get video details
-$task_name="youtube.scrap_video_metadata"
+$task_name="youtube.scrap_video_metadata";
 
 $properties = array(
     'content_type' => 'application/json', 
