@@ -1,4 +1,3 @@
-import s4gpy
 import celery
 
 from celery import Celery
@@ -55,3 +54,14 @@ def scrap_comment(video_id):
     return [(item["snippet"]["topLevelComment"]["snippet"]["textDisplay"],
              item["snippet"]["topLevelComment"]["snippet"]["likeCount"]) for item in response["items"] if
             item["kind"] == "youtube#commentThread"]
+
+
+def scrap_caption(video_id):
+    request = youtube.captions().list(
+        part="snippet",
+        videoId=video_id
+    )
+    response = request.execute()
+
+    request = youtube.captions().download(id=video_id)
+    return response     
