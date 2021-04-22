@@ -36,6 +36,10 @@ environment:
  - BROKER_HOST=foo4
 ```
 
-## Php client
+# PHP client
 
 This php client is provided as an example to call celery task from php.
+
+# Getting the results
+
+Results are pushed in the [broker](https://broker-s4g.miage.dev/), in the [youtube-response queue](https://broker-s4g.miage.dev/#/queues/%2F/youtube-response).
