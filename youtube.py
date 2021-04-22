@@ -41,6 +41,7 @@ def scrap_video_metadata(video_id):
     response = request.execute()
 
     video_info = [x["snippet"] for x in filter(lambda x: x["kind"] == "youtube#video", response["items"])][0]
+    print(video_info)
     return video_info
 
 
