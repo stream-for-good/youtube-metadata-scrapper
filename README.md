@@ -30,6 +30,13 @@ python -c "import youtube; youtube.scrap_video_metadata('8ED5zODbm38')"
 python -c "import youtube; youtube.scrap_comment('8ED5zODbm38')"
 ```
 
+#### get captions
+
+```
+python -c "import youtube; youtube.scrap_captions('8ED5zODbm38')"
+```
+
+
 ### calling celery tasks by hand 
 
 In this scenarios, tasks are run on the server, and you don't need an API Key, but you need to send your tasks on the broker.
