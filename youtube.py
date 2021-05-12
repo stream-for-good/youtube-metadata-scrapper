@@ -41,8 +41,7 @@ def scrap_video_metadata(video_id):
     response = request.execute()
 
     video_info = [x["snippet"] for x in filter(lambda x: x["kind"] == "youtube#video", response["items"])][0]
-    print(video_info)
-    return video_info
+    return {"type": "video_metadata", "video_id": video_id, "payload": video_info}
 
 
 @app.task
@@ -52,15 +51,17 @@ def scrap_comment(video_id):
         videoId=video_id
     )
     response = request.execute()
-    return [(item["snippet"]["topLevelComment"]["snippet"]["textDisplay"],
-             item["snippet"]["topLevelComment"]["snippet"]["likeCount"],
-             item["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"],
-             item["snippet"]["topLevelComment"]["snippet"]["publishedAt"]) for item in response["items"] if
-            item["kind"] == "youtube#commentThread"]
+    return {"type": "comment", "video_id": video_id,
+            "payload": [(item["snippet"]["topLevelComment"]["snippet"]["textDisplay"],
+                         item["snippet"]["topLevelComment"]["snippet"]["likeCount"],
+                         item["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"],
+                         item["snippet"]["topLevelComment"]["snippet"]["publishedAt"]) for item in response["items"] if
+                        item["kind"] == "youtube#commentThread"]}
 
 
 @app.task
 def scrap_captions(video_id):
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     client.images.pull("stream4good/scrapping-robot-youtube-captions")
-    return client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id})
+    return {"type": "captions", "video_id": video_id, "payload": str(
+        client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id}))}
