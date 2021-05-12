@@ -19,5 +19,5 @@ docker-push-release:
 	docker push $(IMAGE_NAME):release
 
 run:
-	docker run -e API_KEY=${API_KEY} -e BROKER_PASSWORD=${BROKER_PASSWORD} -e BROKER_USER=${BROKER_USER} -e BROKER_HOST=${BROKER_HOST} stream4good/youtube-metadata-scrapper -l debug
+	docker run -e API_KEY=${API_KEY} -e BROKER_PASSWORD=${BROKER_PASSWORD} -e BROKER_USER=${BROKER_USER} -e BROKER_HOST=${BROKER_HOST} stream4good/youtube-metadata-scrapper -l debuggi
 
