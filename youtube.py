@@ -52,7 +52,9 @@ def scrap_comment(video_id):
     )
     response = request.execute()
     return [(item["snippet"]["topLevelComment"]["snippet"]["textDisplay"],
-             item["snippet"]["topLevelComment"]["snippet"]["likeCount"]) for item in response["items"] if
+             item["snippet"]["topLevelComment"]["snippet"]["likeCount"],
+             item["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"],
+             item["snippet"]["topLevelComment"]["snippet"]["publishedAt"]) for item in response["items"] if
             item["kind"] == "youtube#commentThread"]
 
 
