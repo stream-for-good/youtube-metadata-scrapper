@@ -7,6 +7,7 @@ import google_auth_oauthlib
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+import docker
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
@@ -58,12 +59,8 @@ def scrap_comment(video_id):
             item["kind"] == "youtube#commentThread"]
 
 
-def scrap_caption(video_id):
-    request = youtube.captions().list(
-        part="snippet",
-        videoId=video_id
-    )
-    response = request.execute()
-
-    request = youtube.captions().download(id=video_id)
-    return response     
+@app.task
+def scrap_captions(video_id):
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    client.images.pull("stream4good/scrapping-robot-youtube-captions")
+    return client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id})
