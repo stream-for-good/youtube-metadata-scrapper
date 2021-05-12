@@ -33,7 +33,7 @@ $properties = array(
 $body='[["'.$video_id.'"], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]';
 $msg = new AMQPMessage($body,$properties);
 
-$channel->queue_declare($response_queue, false, true, false, false);
+$channel->queue_declare($response_queue, true, true, false, false);
 
 $headers = new AMQPTable(array(
 

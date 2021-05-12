@@ -15,6 +15,8 @@ $callback = function ($msg) {
     echo ' [x] Received ', $msg->body, "\n";
 };
 
+$channel->queue_declare('youtube-response', false, true, false, false);
+
 $channel->basic_consume('youtube-response', '', false, true, false, false, $callback);
 
 while ($channel->is_open()) {
