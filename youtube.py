@@ -35,7 +35,7 @@ app.conf.update(
 @app.task
 def scrap_video_metadata(video_id):
     request = youtube.videos().list(
-        part="contentDetails,snippet",
+        part="snippet,contentDetails,statistics",
         id=video_id
     )
     response = request.execute()
