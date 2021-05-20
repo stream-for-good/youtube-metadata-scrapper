@@ -35,13 +35,11 @@ app.conf.update(
 @app.task
 def scrap_video_metadata(video_id):
     request = youtube.videos().list(
-        part="snippet,contentDetails,statistics",
+        part="snippet,contentDetails,statistics,id,liveStreamingDetails,localizations,player,recordingDetails,status,topicDetails",
         id=video_id
     )
     response = request.execute()
-
-    video_info = [x["snippet"] for x in filter(lambda x: x["kind"] == "youtube#video", response["items"])][0]
-    return {"type": "video_metadata", "video_id": video_id, "payload": video_info}
+    return {"type": "video_metadata", "video_id": video_id, "payload": response}
 
 
 @app.task
@@ -63,5 +61,8 @@ def scrap_comment(video_id):
 def scrap_captions(video_id):
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     client.images.pull("stream4good/scrapping-robot-youtube-captions")
-    return {"type": "captions", "video_id": video_id, "payload": str(
-        client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id}))}
+    try:
+        return {"type": "captions", "video_id": video_id, "payload": str(
+            client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id}))}
+    except docker.errors.DockerException:
+        return {"type": "captions", "video_id": video_id, "success":False}

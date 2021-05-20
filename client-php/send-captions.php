@@ -18,7 +18,7 @@ $id=uniqid();
 //this is the queue where the response will be published
 $response_queue="youtube-response";
 //this is the id of the video for which we want to have metadatas
-$video_id="akqcYEIXoEo";
+$video_id="vTF-Kz_7L0c";
 //this is the name of the task that uses Youtube API to get video details
 $task_name="youtube.scrap_captions";
 
