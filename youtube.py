@@ -1,8 +1,8 @@
 import celery
-
+import logging
 from celery import Celery
 import os
-
+import json
 import google_auth_oauthlib
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
@@ -65,4 +65,17 @@ def scrap_captions(video_id):
         return {"type": "captions", "video_id": video_id, "payload": str(
             client.containers.run("stream4good/scrapping-robot-youtube-captions", environment={"VIDEO_ID": video_id}))}
     except docker.errors.DockerException:
-        return {"type": "captions", "video_id": video_id, "success":False}
+        return {"type": "captions", "video_id": video_id, "success": False}
+
+@app.task
+def run_robot(robot_name, payload):
+
+   
+
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    client.images.pull("stream4good/scrapping-robot-youtube-scrapper")
+    try:
+        return {"type": "run_robot", "robot_name": robot_name, "payload": str(
+            client.containers.run("stream4good/scrapping-robot-youtube-scrapper", f"\'{json.dumps(payload)}\'"))}
+    except docker.errors.DockerException as e:
+        return { "type": "run_robot", "robot_name": robot_name, "success":False,"message":str(e)}
