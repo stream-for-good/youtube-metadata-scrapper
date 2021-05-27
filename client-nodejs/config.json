@@ -1,0 +1,13 @@
+{
+	"youtubeToken": "",
+	"broker": {
+		"host":"",
+		"user":"",
+		"password":""
+	},
+	"queues":{
+		"readerVideoId": "",
+		"writerMetadata": "",
+		"writerComments": ""
+	}
+}

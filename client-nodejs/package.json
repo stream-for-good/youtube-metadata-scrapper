@@ -1,0 +1,16 @@
+{
+  "name": "s4good",
+  "version": "0.1.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Isaïa Guille",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.7.1",
+    "google-auth-library": "^7.0.4",
+    "googleapis": "^72.0.0"
+  }
+}
